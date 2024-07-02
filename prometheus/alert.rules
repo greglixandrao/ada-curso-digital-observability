@@ -3,7 +3,7 @@ groups:
 - name: ErrosApp
   rules:
   - alert: Erros500
-    expr: rate(http_server_requests_seconds_count{instance="app:8080",job="app",method="GET",status=~"5.."}[5m]) > 50
+    expr: rate(http_server_requests_seconds_count{method="GET",status=~"5.."}[5m]) > 30
     for: 30s
     labels:
       severity: critical
@@ -16,10 +16,15 @@ groups:
                 Isso está ocorrendo há mais de 30 segundos.
                 Verifique o serviço e acesse os logs para mais detalhes.
   - alert: Erros400
-    expr: rate(http_server_requests_seconds_count{instance="app:8080",job="app",method="GET",status=~"4.."}[5m]) > 70
+    expr: rate(http_server_requests_seconds_count{method="GET",status=~"4.."}[5m]) > 70
     for: 30s
     labels:
       severity: critical
     annotations:
       summary: "Alta taxa de erros 400"
-      description:
+      description: |
+       *Erro 400 Detectado!*
+               A taxa de erros 400 está acima do normal.
+               Valor atual: {{ $value }} requisições por segundo.
+               Isso está ocorrendo há mais de 30 segundos.
+               Verifique o serviço e acesse os logs para mais detalhes.
