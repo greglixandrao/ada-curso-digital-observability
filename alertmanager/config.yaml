@@ -9,7 +9,7 @@ receivers:
     slack_configs:
       - channel: '#alertas'
         send_resolved: true
-        api_url: 'https://hooks.slack.com/services/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'
+        api_url: '${{ secrets.API_SLACK }}'
         title: "{{ range .Alerts }}{{ .Annotations.summary }}\n{{ end }}"
         text: "{{ range .Alerts }}{{ .Annotations.description }}\n{{ end }}"
 
